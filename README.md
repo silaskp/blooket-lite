@@ -40,7 +40,7 @@ The tests run the script against mocked Blooket pages (jsdom).
 
 ## Disclaimer
 
-Not affiliated with or endorsed by Blooket. Using scripts like this breaks Blooket's Terms of Service and can get an account flagged. Use it at your own risk.
+Not affiliated with Blooket. Use at your own risk.
 
 ## License
 
