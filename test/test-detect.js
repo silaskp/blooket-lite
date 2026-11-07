@@ -131,6 +131,18 @@ function boot(state, handlerTypes = [], url = "https://game.blooket.com/G1/play/
   g = boot({ players: { me: { sessionId: "me1" } } }, [], "https://example.com/x");
   ok(g.tabs().length === 0 && /No supported game/.test(g.status()), "non-Blooket host -> unsupported");
 
+  // 15. Auto Guess switched off and on during a hack waits a human delay again (never guesses instantly).
+  g = boot({ players: { me: { sessionId: "me1" } } }, [], "https://cyber.blooket.com/G1/play/P1");
+  const sent15 = []; g.room.send = (t) => sent15.push(t);
+  await sleep(1100);
+  g.emit("hackPasswordOptions", { passwordIndexes: [3, 4], targetPlayerName: "w" });
+  g.tab("Crypto").click(); g.card("Auto Guess").click(); await sleep(300);
+  g.card("Auto Guess").click(); g.card("Auto Guess").click(); await sleep(500);
+  ok(!sent15.includes("submitPasswordGuess"), `re-enabled Auto Guess doesn't guess instantly (${sent15})`);
+  await sleep(2000);
+  ok(sent15.filter((t) => t == "submitPasswordGuess").length === 1, "it still guesses once after the delay");
+  g.card("Auto Guess").click();
+
   console.log(`\n${pass} passed, ${fail} failed`);
   process.exit(fail ? 1 : 0);
 })();

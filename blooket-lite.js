@@ -1028,7 +1028,7 @@
                 if (el && d.tries <= 2) press(el);
                 else coly.room.send("submitPasswordGuess", { passwordIndex: pick }); // same message the game sends
             },
-            off() { this.data.at = 0; this.data.tries = 0; },
+            off() { this.data.seq = 0; this.data.tries = 0; }, // switched back on: a fresh human delay, never an instant guess
         };
     }
     // Crypto's prize is a hack: the game goes on to the password screen once it's claimed, so press through it.
